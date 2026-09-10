@@ -1,0 +1,47 @@
+classDiagram
+    class TipoChavePix {
+        <<enumeration>>
+        CPF
+        CNPJ
+        EMAIL
+        TELEFONE
+        ALEATORIA
+    }
+
+    class Cliente {
+        -String nome
+        -String cpfCnpj
+        -String email
+        +getNome() String
+        +autenticar() Boolean
+    }
+
+    class Conta {
+        -String numero
+        -String agencia
+        -Double saldo
+        +verificarSaldo(Double valor) Boolean
+        +debitar(Double valor) void
+        +creditar(Double valor) void
+    }
+
+    class Transacao {
+        -String id
+        -Double valor
+        -DateTime data
+        -String tipo
+        +gerarComprovante() String
+    }
+
+    class ChavePix {
+        -String valor
+        -DateTime dataCadastro
+        -String status
+        +ativar() void
+        +inativar() void
+    }
+
+    Cliente "1" --> "1..*" Conta : possui
+    Conta "1" --> "0..*" Transacao : registra
+    Conta "1" --> "0..5" ChavePix : gerencia
+    ChavePix --> TipoChavePix : tipo

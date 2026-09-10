@@ -1,0 +1,29 @@
+sequenceDiagram
+    participant Cliente
+    participant TelaPix
+    participant ControladorPix
+    participant Conta
+    participant SistemaBACEN
+
+    Cliente->>TelaPix: Inicia transferência Pix
+    TelaPix->>ControladorPix: validarChave(chave)
+    ControladorPix->>SistemaBACEN: consultarChave(chave)
+    SistemaBACEN-->>ControladorPix: Chave válida
+    ControladorPix-->>TelaPix: Chave confirmada
+    TelaPix->>ControladorPix: processarPix(valor, chave)
+    ControladorPix->>Conta: verificarSaldo(valor)
+
+    alt [Saldo Suficiente]
+        Conta-->>ControladorPix: true
+        ControladorPix->>Conta: debitar(valor)
+        Conta->>Conta: Deduz saldo
+        Conta-->>ControladorPix: Débito realizado
+        ControladorPix->>SistemaBACEN: registrarTransacao(valor, chave)
+        SistemaBACEN-->>ControladorPix: Transação registrada
+        ControladorPix->>TelaPix: exibirSucesso()
+        TelaPix-->>Cliente: Pix realizado com sucesso!
+    else [Saldo Insuficiente]
+        Conta-->>ControladorPix: false
+        ControladorPix->>TelaPix: exibirErro()
+        TelaPix-->>Cliente: Saldo insuficiente
+    end

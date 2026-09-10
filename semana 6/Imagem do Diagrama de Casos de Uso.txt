@@ -1,0 +1,18 @@
+flowchart LR
+    cliente([cliente])
+    sistemaBacen([sistemaBacen])
+
+    subgraph Sistema ["sistema de reserva de livros"]
+        direction TB
+        UC1(Cadastrar Chave Pix)
+        UC2(Realizar Pix)
+        UC3(consultar saldo)
+        UC4(Autenticar Usuário)
+    end
+
+    cliente --> UC2
+    sistemaBacen --> UC4
+
+    UC1 -. "<<extend>>" .-> UC3
+    UC2 -. "<<include>>" .-> UC3
+    UC2 -. "<<include>>" .-> UC4
