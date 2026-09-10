@@ -2,7 +2,7 @@ flowchart LR
     cliente([cliente])
     sistemaBacen([sistemaBacen])
 
-    subgraph Sistema ["sistema de reserva de livros"]
+    subgraph Sistema ["Sistema IFBANK"]
         direction TB
         UC1(Cadastrar Chave Pix)
         UC2(Realizar Pix)
