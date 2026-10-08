@@ -1,0 +1,34 @@
+@startuml
+title Diagrama de Comunicação - Sistema de Vendas da Cantina
+
+rectangle "Cliente" as C
+rectangle "Atendente" as A
+rectangle "Sistema de Vendas" as S
+rectangle "Pedido" as P
+rectangle "Estoque" as E
+rectangle "Pagamento" as PG
+rectangle "Comprovante" as CP
+
+C --> S : 1. consultarCardapio()
+S --> C : 1.1. exibirCardapio()
+
+C --> A : 2. informarProdutosEQuantidades()
+A --> S : 3. criarPedido()
+A --> P : 3.1. adicionarItem()
+
+P --> S : 4. calcularSubtotal()
+S --> P : 4.1. calcularTotal()
+S --> E : 4.2. verificarDisponibilidade()
+
+A --> S : 5. informarPagamento()
+S --> PG : 6. verificarValorPago()
+PG --> S : 6.1. confirmarPagamento()
+
+S --> P : 7. confirmarPedido()
+S --> E : 7.1. baixarProdutosVendidos()
+S --> PG : 7.2. calcularTroco()
+
+S --> CP : 8. emitirComprovante()
+CP --> C : 8.1. entregarComprovante()
+
+@enduml
